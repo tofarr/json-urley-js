@@ -77,7 +77,7 @@ function appendParamToObj(pathElement: PathElement, parent: any) {
 
 export const jsonObjToQueryParams = (jsonObj: any) => {
     const result = new URLSearchParams()
-    if (jsonObj) {
+    if (Object.keys(jsonObj).length) {
         generateQueryParams(jsonObj, [], false, result)
     }
     return result
