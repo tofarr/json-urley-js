@@ -48,7 +48,7 @@ export const parsePath = (path: string) => {
       if (currentIndex < path.length){
         currentKey.push(path.substring(currentIndex, path.length))
       }
-      if (currentKey){
+      if (currentKey.length) {
         elements.push(new PathElement(currentKey.join("")))
       }
       return elements
@@ -74,12 +74,14 @@ const TYPE_HINTS = {
     if (parsed.toString() != value){
       throw new Error(`not_float:${value}`)
     }
+    return parsed
   },
   i: (value: string) => {
     const parsed = parseInt(value)
     if (parsed.toString() != value){
       throw new Error(`not_int:${value}`)
     }
+    return parsed
   },
   b: (value: string) => {
     value = value.toLowerCase()
@@ -93,8 +95,9 @@ const TYPE_HINTS = {
   },
   n: (value: string) => {
     if (value) {
-      throw new Error
+      throw new Error(`not_empty:${value}`)
     }
+    return null
   },
   a: (value: string) => {
     if (value) {

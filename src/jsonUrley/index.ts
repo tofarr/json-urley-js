@@ -53,7 +53,7 @@ function appendParam(path: PathElement[], value: string, result: any){
 }
 
 function appendParamToArray(pathElement: PathElement, parent: any) {
-    if (pathElement.key === "e" && parent) {
+    if (pathElement.key === "e" && parent.length) {
         return parent[parent.length-1]
     }
     if (["e", "n"].includes(pathElement.key)) {
@@ -86,7 +86,8 @@ export const jsonObjToQueryParams = (jsonObj: any) => {
 
 export const jsonObjToQueryStr = (jsonObj: any) => {
     const queryParams = jsonObjToQueryParams(jsonObj)
-    const result = queryParams.toString()
+    let result = queryParams.toString()
+    result = result.replaceAll('%7E', '~')
     return result
 }
 
@@ -135,7 +136,7 @@ function generateQueryParamsForList(jsonObj: any, currentParam: string[], isNest
     if (!hasNested && !isNestedList && !isSingleItemArray) {
         // If there is nothing complicated going on, we can output
         // array items in the format item=1&item=2
-        for (const item in jsonObj) {
+        for (const item of jsonObj) {
             generateQueryParams(item, currentParam, false, target)
         }
         return
@@ -143,23 +144,10 @@ function generateQueryParamsForList(jsonObj: any, currentParam: string[], isNest
 
     const itemIndex = currentParam.length
     currentParam[currentParam.length-1] += "~a"
-    let first = true
+    const wrappedTarget = new URLListParamsWrapper(target, currentParam, itemIndex) as any as URLSearchParams
     for (const item of jsonObj) {
         currentParam.push("n")
-        const subTarget = new URLSearchParams()
-        generateQueryParams(item, currentParam, true, subTarget)
-        subTarget.forEach((paramValue, paramName) => {
-            target.append(paramName, paramValue)
-            currentParam[itemIndex] = "e"
-            if (first) {
-                // Remove the repeat array definition to reduce verbosity
-                const pathItem = currentParam[itemIndex - 1]
-                if (pathItem.endsWith("~a")) {
-                    currentParam[itemIndex - 1] = pathItem.substring(0, pathItem.length - 2)
-                }
-                first = false
-            }
-        })
+        generateQueryParams(item, currentParam, true, wrappedTarget)
         currentParam.pop()
     }
 }
@@ -173,4 +161,25 @@ function generateQueryParamsForStr(jsonObj: string, currentParam: string[], targ
       key += "~s"
     }
     target.append(key, jsonObj)
+}
+
+class URLListParamsWrapper {
+  params: URLSearchParams
+  path: string[]
+  pathIndex: number
+
+  constructor(params: URLSearchParams, path: string[], pathIndex: number) {
+    this.params = params
+    this.path = path
+    this.pathIndex = pathIndex
+  }
+
+  append(key: string, value: string) {
+    this.params.append(key, value)
+    this.path[this.pathIndex] = "e"
+    const item = this.path[this.pathIndex - 1]
+    if (item.endsWith('~a')){
+      this.path[this.pathIndex - 1] = item.substring(0, item.length - 2)
+    }
+  }
 }
