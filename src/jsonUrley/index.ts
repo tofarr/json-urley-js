@@ -25,7 +25,7 @@ function appendParam(path: PathElement[], value: string, result: JsonType){
             throw new Error(`invalid_element:${pathElement}`)
         }
         if (parent instanceof Array) {
-            parent = appendParamToArray(pathElement, parent)
+            parent = appendParamToArray(pathElement, parent as JsonType[])
         } else if (typeof parent === 'object') {
             parent = appendParamToObj(pathElement, parent)
         } else {
@@ -54,7 +54,7 @@ function appendParam(path: PathElement[], value: string, result: JsonType){
     }
 }
 
-function appendParamToArray(pathElement: PathElement, parent: JsonType) {
+function appendParamToArray(pathElement: PathElement, parent: JsonType[]) {
     if (pathElement.key === "e" && parent.length) {
         return parent[parent.length-1]
     }
@@ -66,7 +66,7 @@ function appendParamToArray(pathElement: PathElement, parent: JsonType) {
     throw new Error(`path_mismatch:${pathElement}`)
 }
 
-function appendParamToObj(pathElement: PathElement, parent: JsonType) {
+function appendParamToObj(pathElement: PathElement, parent: { [key: string]: JsonType; }) {
     const { key } = pathElement
     if (key in parent) {
         return parent[key]
@@ -110,7 +110,7 @@ function generateQueryParams(jsonObj: JsonType, currentParam: string[], isNested
             currentParam.pop()
         }
     } else if (jsonObj instanceof Array) {
-        generateQueryParamsForList(jsonObj, currentParam, isNestedList, target)
+        generateQueryParamsForList(jsonObj as JsonType[], currentParam, isNestedList, target)
     } else if (typeof jsonObj === 'boolean') {
         const key = currentParam.join(".")
         jsonObj = jsonObj ? "true" : "false"
@@ -126,7 +126,7 @@ function generateQueryParams(jsonObj: JsonType, currentParam: string[], isNested
 }
 
 
-function generateQueryParamsForList(jsonObj: JsonType, currentParam: string[], isNestedList: boolean, target: URLSearchParams) {
+function generateQueryParamsForList(jsonObj: JsonType[], currentParam: string[], isNestedList: boolean, target: URLSearchParams) {
     if (!jsonObj.length) {
         target.append(currentParam.join(".") + "~a", "")
         return

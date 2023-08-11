@@ -3,42 +3,6 @@
 Json Urley provides a tight standard for converting json objects to and from URL parameters.
 (This is a port to typescript of the [python json-urley](https://github.com/tofarr/json-urley) project)
 
-## Building / Running Tests
-
-First install the project dependencies (Including dev dependencies) with:
-```
-npm install
-```
-
-To build the library js files in the dist directory from the typescript files in the src directory run:
-```
-npm run build
-```
-
-To run the mocha tests from the command line:
-```
-npm run build
-npm run test
-```
-
-To run the mocha tests in browser:
-```
-npm run buildBrowserTest
-npm run browserTest
-```
-
-Then visit: [http://localhost:8080/test.html](http://localhost:8080/test.html)
-
-To Run the Linter:
-```
-npm run lint
-```
-
-Problems:
-* The source map does not match up so debugging is hard
-* The process is manual - we should watch the directory and run webpack
-* The browser should open automatically
-
 ## Aims:
 
 * The resulting URLs should be as readable as possible
@@ -132,6 +96,42 @@ should!
 ```
 python setup.py install easy_install "json-urley[dev]"
 ```
+
+## Building / Running Tests
+
+First install the project dependencies (Including dev dependencies) with:
+```
+npm install
+```
+
+To build the library js files in the dist directory from the typescript files in the src directory run:
+```
+npm run build
+```
+
+To run the mocha tests from the command line:
+```
+npm run build
+npm run test
+```
+
+To Run the Linter:
+```
+npm run lint
+```
+
+To run the mocha tests in browser (This will create a build directory populated by webpack):
+```
+npm run buildBrowserTest
+npm run browserTest
+```
+
+Then visit: [http://localhost:8080/test.html](http://localhost:8080/test.html)
+
+Problems:
+* The source map does not match up so debugging is hard
+* The process is manual - we should watch the directory and run webpack
+* The browser should open automatically
 
 ## Release Procedure
 
