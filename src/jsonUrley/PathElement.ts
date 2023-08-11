@@ -22,7 +22,8 @@ export default PathElement
 export const parsePath = (path: string) => {
   const elements = []
   let currentIndex = 0
-  let currentKey = []
+  const currentKey = []
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const nextTilda = nextIndexOf(path, "~", currentIndex)
     const nextDot = nextIndexOf(path, ".", currentIndex)

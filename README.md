@@ -5,8 +5,15 @@ Json Urley provides a tight standard for converting json objects to and from URL
 
 ## Building / Running Tests
 
+First install the project dependencies (Including dev dependencies) with:
+```
+npm install
+```
+
 To build the library js files in the dist directory from the typescript files in the src directory run:
-`npm run build`
+```
+npm run build
+```
 
 To run the mocha tests from the command line:
 ```
@@ -22,6 +29,10 @@ npm run browserTest
 
 Then visit: [http://localhost:8080/test.html](http://localhost:8080/test.html)
 
+To Run the Linter:
+```
+npm run lint
+```
 
 Problems:
 * The source map does not match up so debugging is hard

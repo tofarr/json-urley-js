@@ -1,11 +1,9 @@
 import {
-  jsonObjToQueryParams,
   jsonObjToQueryStr,
-  queryParamsToJsonObj,
   queryStrToJsonObj
 } from './';
 
-import * as mocha from 'mocha';
+// import * as mocha from 'mocha';
 import * as chai from 'chai';
 
 const expect = chai.expect;
@@ -299,8 +297,8 @@ describe('JsonUrley', () => {
   })
 
   it('rule 10 example 4', () => {
-    let queryStr = "foo~a=&foo.n.c=a&foo.n.c=b"
-    let jsonObj = queryStrToJsonObj(queryStr)
+    const queryStr = "foo~a=&foo.n.c=a&foo.n.c=b"
+    const jsonObj = queryStrToJsonObj(queryStr)
     const expectedJsonObj = {"foo": [{"c": "a"}, {"c": "b"}]}
     expect(JSON.stringify(expectedJsonObj)).to.equal(JSON.stringify(jsonObj))
     const result = jsonObjToQueryStr(jsonObj)
@@ -309,8 +307,8 @@ describe('JsonUrley', () => {
   })
 
   it('rule 10 example 5', () => {
-    let queryStr = "foo~a.n.c=a&foo.e.d=b"
-    let jsonObj = queryStrToJsonObj(queryStr)
+    const queryStr = "foo~a.n.c=a&foo.e.d=b"
+    const jsonObj = queryStrToJsonObj(queryStr)
     const expectedJsonObj = {"foo": [{"c": "a", "d": "b"}]}
     expect(JSON.stringify(expectedJsonObj)).to.equal(JSON.stringify(jsonObj))
     const result = jsonObjToQueryStr(jsonObj)
@@ -318,8 +316,8 @@ describe('JsonUrley', () => {
   })
 
   it('rule 10 example 6', () => {
-    let queryStr = "foo~a.e.c=a&foo.e.d=b"
-    let jsonObj = queryStrToJsonObj(queryStr)
+    const queryStr = "foo~a.e.c=a&foo.e.d=b"
+    const jsonObj = queryStrToJsonObj(queryStr)
     const expectedJsonObj = {"foo": [{"c": "a", "d": "b"}]}
     expect(JSON.stringify(expectedJsonObj)).to.equal(JSON.stringify(jsonObj))
     const result = jsonObjToQueryStr(jsonObj)

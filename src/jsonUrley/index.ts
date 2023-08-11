@@ -1,5 +1,7 @@
 import PathElement, { parsePath } from './PathElement'
 
+export type JsonType = boolean | number | string | JsonType[] | { [key: string]: JsonType; }
+
 export const queryStrToJsonObj = (query: string) => {
     const params = new URLSearchParams(query)
     const result = queryParamsToJsonObj(params)
@@ -15,7 +17,7 @@ export const queryParamsToJsonObj = (params: URLSearchParams) => {
     return result
 }
 
-function appendParam(path: PathElement[], value: string, result: any){
+function appendParam(path: PathElement[], value: string, result: JsonType){
     let parent = result
     for (let i = 0; i < path.length - 1; i++){
         const pathElement = path[i]
@@ -52,7 +54,7 @@ function appendParam(path: PathElement[], value: string, result: any){
     }
 }
 
-function appendParamToArray(pathElement: PathElement, parent: any) {
+function appendParamToArray(pathElement: PathElement, parent: JsonType) {
     if (pathElement.key === "e" && parent.length) {
         return parent[parent.length-1]
     }
@@ -64,7 +66,7 @@ function appendParamToArray(pathElement: PathElement, parent: any) {
     throw new Error(`path_mismatch:${pathElement}`)
 }
 
-function appendParamToObj(pathElement: PathElement, parent: any) {
+function appendParamToObj(pathElement: PathElement, parent: JsonType) {
     const { key } = pathElement
     if (key in parent) {
         return parent[key]
@@ -75,7 +77,7 @@ function appendParamToObj(pathElement: PathElement, parent: any) {
 }
 
 
-export const jsonObjToQueryParams = (jsonObj: any) => {
+export const jsonObjToQueryParams = (jsonObj: JsonType) => {
     const result = new URLSearchParams()
     if (Object.keys(jsonObj).length) {
         generateQueryParams(jsonObj, [], false, result)
@@ -84,7 +86,7 @@ export const jsonObjToQueryParams = (jsonObj: any) => {
 }
 
 
-export const jsonObjToQueryStr = (jsonObj: any) => {
+export const jsonObjToQueryStr = (jsonObj: JsonType) => {
     const queryParams = jsonObjToQueryParams(jsonObj)
     let result = queryParams.toString()
     result = result.replaceAll('%7E', '~')
@@ -92,7 +94,7 @@ export const jsonObjToQueryStr = (jsonObj: any) => {
 }
 
 
-function generateQueryParams(jsonObj: any, currentParam: string[], isNestedList: boolean, target: URLSearchParams) {
+function generateQueryParams(jsonObj: JsonType, currentParam: string[], isNestedList: boolean, target: URLSearchParams) {
     if (jsonObj == null) {
         target.append(currentParam.join('.'), "null")
     } else if ((typeof jsonObj === "object") && !(jsonObj instanceof Array)) {
@@ -124,7 +126,7 @@ function generateQueryParams(jsonObj: any, currentParam: string[], isNestedList:
 }
 
 
-function generateQueryParamsForList(jsonObj: any, currentParam: string[], isNestedList: boolean, target: URLSearchParams) {
+function generateQueryParamsForList(jsonObj: JsonType, currentParam: string[], isNestedList: boolean, target: URLSearchParams) {
     if (!jsonObj.length) {
         target.append(currentParam.join(".") + "~a", "")
         return
@@ -144,6 +146,7 @@ function generateQueryParamsForList(jsonObj: any, currentParam: string[], isNest
 
     const itemIndex = currentParam.length
     currentParam[currentParam.length-1] += "~a"
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const wrappedTarget = new URLListParamsWrapper(target, currentParam, itemIndex) as any as URLSearchParams
     for (const item of jsonObj) {
         currentParam.push("n")
