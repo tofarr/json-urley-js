@@ -10,6 +10,22 @@ Standard install via:
 npm install json-urley
 ```
 
+## Usage
+
+Converting a Json Object to a Query String:
+```
+import { jsonObjToQueryStr } from 'json-urley';
+const myJsonObj = {foo: 'bar', zap: true, bang: 1}
+const myQueryStr = jsonObjToQueryStr(myJsonObj)
+```
+
+Converting a Query String to a JSON Object:
+```
+import { jsonObjToQueryStr, queryStrToJsonObj } from 'json-urley';
+const myqueryStr = '?foo=bar&zap=true&bang=1'
+const myJsonObj = queryStrToJsonObj(myqueryStr)
+```
+
 ## Aims:
 
 * The resulting URLs should be as readable as possible
