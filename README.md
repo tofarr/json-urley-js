@@ -142,4 +142,5 @@ Then visit: [http://localhost:8080/test.html](http://localhost:8080/test.html)
 The typical process here is:
 * Create a PR with changes. Merge these to main (The `Quality` workflows make sure that your PR
   meets the styling, linting, and code coverage standards).
-* New releases created in github are automatically uploaded to pypi
+* Create a new release tag in github - New releases created in github are automatically uploaded to npm.
+  (The NPM_TOKEN may expire and need to be refreshed periodically in the repository secrets.)

@@ -1,6 +1,6 @@
 {
   "name": "json-urley",
-  "version": "0.0.1",
+  "version": "read_from_github",
   "description": "Json Urley provides a tight standard for converting json objects to and from URL parameters.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -34,6 +34,7 @@
     "buildBrowserTest": "webpack",
     "browserTest": "node scripts/browserTest",
     "prettier": "npx prettier src --write",
-    "prettierCheck": "npx prettier src --check"
+    "prettierCheck": "npx prettier src --check",
+    "githubUpdateVersion": "node scripts/githubUpdateVersion"
   }
 }
