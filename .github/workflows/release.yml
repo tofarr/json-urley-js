@@ -17,7 +17,9 @@ jobs:
       - run: npm ci
       - run: npm run githubUpdateVersion
       - run: npm run build
-      - run: npm test
+      - run: npm run lint
+      - run: npm run prettierCheck
+      - run: npm run testCoverage
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
