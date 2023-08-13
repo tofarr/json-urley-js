@@ -163,12 +163,13 @@ function generateQueryParamsForList(
 
   const itemIndex = currentParam.length;
   currentParam[currentParam.length - 1] += "~a";
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const wrappedTarget = new URLListParamsWrapper(
     target,
     currentParam,
     itemIndex,
-  ) as any as URLSearchParams;
+  );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const wrappedTargetParams = wrappedTarget as any as URLSearchParams;
   for (const item of jsonObj) {
     currentParam.push("n");
     generateQueryParams(item, currentParam, true, wrappedTarget);
