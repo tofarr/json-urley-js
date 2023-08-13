@@ -3,6 +3,13 @@
 Json Urley provides a tight standard for converting json objects to and from URL parameters.
 (This is a port to typescript of the [python json-urley](https://github.com/tofarr/json-urley) project)
 
+## Installation
+
+Standard install via:
+```
+npm install json-urley
+```
+
 ## Aims:
 
 * The resulting URLs should be as readable as possible
@@ -60,7 +67,7 @@ Json Urley provides a tight standard for converting json objects to and from URL
 11. Trying to mix arrays with objects will result in an error:
     * `?a~a=&a.b=1 => ERROR`
     * `?a~a=&a.foo=1 => ERROR`
-12. Actual ~ or . in keys can be escaped with a preceeding ~:
+12. Actual ~ or . in keys can be escaped with a preceding ~:
     * `a~~a=1 => {"a~a": 1}`
     * `a~~~b=1 => {"a~": true}`
     * `a~~~.b=1 => {"a~.b": 1}`
@@ -91,15 +98,9 @@ could command a server to create a data structure to hold trillions of items fro
 Yes. Though the spec allows you to define data structures of any complexity, just because you can doesn't mean you
 should!
 
-## Installing local development dependencies
+## Developing / Building / Running Tests
 
-```
-python setup.py install easy_install "json-urley[dev]"
-```
-
-## Building / Running Tests
-
-First install the project dependencies (Including dev dependencies) with:
+After cloning the git repo, install the project dependencies (Including dev dependencies) with:
 ```
 npm install
 ```
@@ -128,14 +129,15 @@ npm run browserTest
 
 Then visit: [http://localhost:8080/test.html](http://localhost:8080/test.html)
 
-Problems:
-* The source map does not match up so debugging is hard
+## Problems:
+
+* The source map does not match up so debugging in a browser is hard
 * The process is manual - we should watch the directory and run webpack
 * The browser should open automatically
 
 ## Release Procedure
 
-![status](https://github.com/tofarr/json-urley/actions/workflows/quality.yml/badge.svg?branch=main)
+![status](https://github.com/tofarr/json-urley-js/actions/workflows/quality.yml/badge.svg?branch=main)
 
 The typical process here is:
 * Create a PR with changes. Merge these to main (The `Quality` workflows make sure that your PR
