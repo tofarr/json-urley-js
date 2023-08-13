@@ -172,7 +172,7 @@ function generateQueryParamsForList(
   const wrappedTargetParams = wrappedTarget as any as URLSearchParams;
   for (const item of jsonObj) {
     currentParam.push("n");
-    generateQueryParams(item, currentParam, true, wrappedTarget);
+    generateQueryParams(item, currentParam, true, wrappedTargetParams);
     currentParam.pop();
   }
 }

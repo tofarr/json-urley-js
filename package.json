@@ -1,6 +1,6 @@
 {
   "name": "json-urley",
-  "version": "read_from_github",
+  "version": "0.0.0",
   "description": "Json Urley provides a tight standard for converting json objects to and from URL parameters.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
