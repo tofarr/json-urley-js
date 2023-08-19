@@ -3,4 +3,6 @@ export {
   jsonObjToQueryStr,
   queryParamsToJsonObj,
   queryStrToJsonObj,
+  JsonType,
+  JsonObjType,
 } from "./jsonUrley";

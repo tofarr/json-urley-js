@@ -1,6 +1,7 @@
 import PathElement, { parsePath } from "./PathElement";
 
 export type JsonType =
+  | null
   | boolean
   | number
   | string
