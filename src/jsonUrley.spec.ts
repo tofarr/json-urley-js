@@ -457,4 +457,36 @@ describe("JsonUrley", () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     expect(() => jsonObjToQueryStr({ foo: new Date() as any })).to.throw();
   });
+
+  it("uuids should convert", () => {
+    // Tests case where uuid starts with a number. (Found in testing)
+    const jsonObj = {id: "1194739a-8e75-47c1-98dd-887055a560c6"};
+    const queryStr = jsonObjToQueryStr(jsonObj)
+    const expectedQueryStr = "id=1194739a-8e75-47c1-98dd-887055a560c6";
+    expect(queryStr).to.equal(expectedQueryStr);
+    const result = queryStrToJsonObj(queryStr);
+    expect(JSON.stringify(jsonObj)).to.equal(JSON.stringify(result));
+  })
+
+  it("Special number str should convert", () => {
+    for (const n of ["NaN", "Infinity", "-Infinity"]) {
+      const jsonObj = {id: n};
+      const queryStr = jsonObjToQueryStr(jsonObj)
+      const expectedQueryStr = `id~s=${n}`;
+      expect(queryStr).to.equal(expectedQueryStr);
+      const result = queryStrToJsonObj(queryStr);
+      expect(JSON.stringify(jsonObj)).to.equal(JSON.stringify(result));
+    }
+  })
+
+  it("Special number should convert", () => {
+    for (const n of [Number.NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]) {
+      const jsonObj = {id: n};
+      const queryStr = jsonObjToQueryStr(jsonObj)
+      const expectedQueryStr = `id=${n}`;
+      expect(queryStr).to.equal(expectedQueryStr);
+      const result = queryStrToJsonObj(queryStr);
+      expect(JSON.stringify(jsonObj)).to.equal(JSON.stringify(result));
+    }
+  })
 });

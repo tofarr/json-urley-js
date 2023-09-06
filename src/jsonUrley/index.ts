@@ -184,10 +184,9 @@ function generateQueryParamsForStr(
   target: URLSearchParams,
 ) {
   let key = currentParam.join(".");
-  if (["true", "false", "null"].includes(jsonObj)) {
+  if (["true", "false", "null", "NaN", "Infinity", "-Infinity"].includes(jsonObj)) {
     key += "~s";
-  }
-  if (!Number.isNaN(parseFloat(jsonObj))) {
+  } else if (!Number.isNaN(Number(jsonObj))) {
     key += "~s";
   }
   target.append(key, jsonObj);
